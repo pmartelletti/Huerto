@@ -1,0 +1,69 @@
+@CHARSET "ISO-8859-1";
+.desc {
+	font-size:10px;
+	font-weight: bold;
+	font-style: italic;
+}
+
+.noShow {
+	display: none;
+}
+
+#message {
+	width: 70%;
+	margin: 20px auto;
+}
+
+.loading {
+	background: white url('../images/loading.gif') center center no-repeat;
+}
+
+.ui-autocomplete-loading { 
+	background: white url('../images/ui-anim_basic_16x16.gif') right center no-repeat; 
+}
+
+.errorValidate {
+	color: red;
+	margin-left: 5px;
+}
+
+.logo {
+	background: white url('../images/escudo.gif') right right no-repeat;
+	width:95%;
+	height: 65px;
+	margin-right: 20px; 
+}
+
+input {
+	text-transform: capitalize;
+}
+
+.ui-autocomplete{
+	max-height: 250px;
+	overflow-y:auto;
+	
+}
+
+
+.notification {
+	margin: 10px;
+	padding: 10px;
+	color: #4c3d5a;
+	background-color: #d8deea;
+	border: 2px solid #3b5999;	
+}
+
+.notification div.ui-icon {
+	cursor: pointer;
+}
+
+.notification p {
+	margin: 0;
+	padding: 0;
+}
+
+.close-notification {
+	width: 16px;
+	margin-top: -5px;
+	margin-left: 98%
+}

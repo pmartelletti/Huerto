@@ -1,0 +1,31 @@
+<script type="text/javascript">
+
+$(function(){
+	$( "#dialog-confirm" ).dialog({
+			resizable: false,
+			height:160,
+			modal: true,
+			buttons: {
+				"Si, cerrar sesion": function() {
+					
+					$.post("adminReports.php", {action: "closeSession"}, function(data){
+							
+							window.location = "index.php";
+						
+					}, "json");
+				},
+				"No todavia": function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+})
+
+</script>
+
+<div id="dialog-confirm" title="Cerrar Sesion?">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Esta seguro de que desea cerrar la sesion?</p>
+</div>
+
+
+<div id="mesage" class="noShow"></div>

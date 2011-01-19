@@ -1,0 +1,122 @@
+<div id="partePreview">
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#parteDetail input, #parteDetail select, #parteDetail textarea").attr("disabled", "disabled");
+		})
+	</script>
+	<form id="parteDetail">
+		
+		<fieldset>
+			<legend>Información General</legend>
+		
+			<p>
+				<label for="par_id">Id parte:</label>
+				<input type="text" name="par_id" id="par_id" style="width:25px">
+				
+				<label for="par_fecha">Fecha: </label>
+				<input type="text" name="par_fecha" id="par_fecha" style="width:70px">
+				
+				<label for="par_sec_id">Seccion</label>
+				<input type="text" name="par_sec_id" id="par_sec_id" style="width:80px">
+				
+				<label for="par_us_id">Secretaria:</label>
+				<input type="text" name="par_us_id" id="par_us_id" style="width:300px">
+			</p>
+			
+			<p>
+				<label for="par_observaciones">Observaciones generales del Administrador: </label><br/>
+				<textarea name="par_observaciones" id="par_observaciones" style="width:100%; height:40px"></textarea>
+			</p>
+		
+		</fieldset>
+		
+		<fieldset>
+			<legend>Parte Diario</legend>
+			<div flexy:foreach="partes,parte">
+				
+				<p>
+					<label for="re_tipo[]">Tipo</label>
+					<input type="text" name="re_tipo[]" id="re_tipo[]" value="{getDBproperty(parte,#re_tipo#)}" flexy:ignore >
+				
+					<label for="re_doc_id[]">Docente / alumno: </label>
+					<input type="text" name="re_doc_id[]" id="re_doc_id[]" style="width:300px" value="{getDBproperty(parte,#_re_doc_id.doc_nombre#)}" flexy:ignore>
+					
+				</p>
+				<p>
+					
+					<label for="re_horas[]">Horas: </label>
+					<input type="text" name="re_horas[]" id="re_horas[]" value="{getDBproperty(parte,#re_horas#)}" flexy:ignore>
+					
+					<label for="re_motivo[]">Motivo: </label>
+					<input type="text" name="re_motivo[]" id="re_motivo[]"  value="{getDBproperty(parte,#re_motivo#)}" flexy:ignore>
+					
+					<div style=" margin-right:20px">
+						<label for="re_observacion[]">Observacion del Administrador</label><br/>
+						<textarea name="re_observacion[]" style="width:100%; height:40px" id="re_observacion[]"flexy:ignore>{getDBproperty(parte,#re_observacion#)}</textarea>
+					</div>
+					
+				</p>
+				<div style="clear:both;border-bottom: 1px solid #cd0505; padding-bottom:10px; margin-bottom:10px"></div>
+				
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>Accidentes</legend>
+			<div flexy:foreach="accidentes,accidente" style="clear:both;">
+				
+				<p>
+					<label for="acc_tipo[]">Tipo</label>
+					<input type="text" name="acc_tipo[]" id="acc_tipo[]" value="{getDBproperty(accidente,#acc_tipo#)}" flexy:ignore >
+				
+					<label for="acc_doc_id[]">Docente / alumno: </label>
+					<input type="text" name="acc_doc_id[]" id="acc_doc_id[]" style="width:300px" value="{getNombreAccidente(accidente)}" flexy:ignore>
+				</p>
+				
+				<p style="width:90%;">
+					<div style="float:left;width:45%">
+						<label for="acc_descripcion[]">Descripcion</label><br/>
+						<textarea flexy:ignore name="acc_descripcion[]" style="height:80px" id="acc_descripcion[]">{getDBproperty(accidente,#acc_descripcion#)}</textarea><br/>
+					</div>
+					
+					<div style="float:right; width:45%; margin-right:20px">
+						<label for="acc_observacion[]">Observacion del Administrador</label><br/>
+						<textarea flexy:ignore name="acc_observacion[]" style="height:80px" id="acc_observacion[]">{getDBproperty(accidente,#acc_observacion#)}</textarea>
+					</div>
+					
+				</p>
+				<div style="clear:both;border-bottom: 1px solid #cd0505; padding-bottom:10px; margin-bottom:10px"></div>
+				
+			</div>
+		</fieldset>
+		
+		<fieldset>
+			<legend>Horas Extras</legend>
+			
+			<div flexy:foreach="horasExtras,horas" style="clear:both;">
+				<p>
+					<label for="he_doc_id[]">Docente</label>
+					<input type="text" name="he_doc_id[]" id="he_doc_id[]" style="width:300px" value="{getDBproperty(horas,#_he_doc_id.doc_nombre#)}" flexy:ignore >
+				
+					<label for="he_cantidad_horas[]">Cantidad de Horas: </label>
+					<input type="text" name="he_cantidad_horas[]" id="he_cantidad_horas[]" value="{getDBproperty(horas,#he_cantidad_horas#)}" flexy:ignore>
+				</p>
+				
+				<p style="width:90%;">
+					<div style="float:left;width:45%">
+						<label for="he_descripcion[]">Descripcion</label><br/>
+						<textarea name="he_descripcion[]" style="height:80px" id="he_descripcion[]" flexy:ignore>{getDBproperty(horas,#he_descripcion#)}</textarea><br/>
+					</div>
+					
+					<div style="float:right; width:45%; margin-right:20px">
+						<label for="he_observacion[]">Observacion del Administrador</label><br/>
+						<textarea name="he_observacion[]" style="height:80px" id="he_observacion[]" flexy:ignore>{getDBproperty(horas,#he_observacion#)}</textarea>
+					</div>
+					
+				</p>
+				<div style="clear:both;border-bottom: 1px solid #cd0505; padding-bottom:10px; margin-bottom:10px"></div>
+				
+			</div>
+			
+		</fieldset>
+	</form>
+</div>

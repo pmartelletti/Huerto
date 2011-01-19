@@ -1,0 +1,72 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+%\usepackage{fullpage}
+
+\title{Manual de Usuario para Partes Diarios \\ Sección: Administrador}
+\begin{document}
+\date{\today}
+\maketitle
+
+\section{Introduccion}
+
+El siguiente manual de usuario tiene como objetivo ayudar a los administradores del sistema de Partes Diarios, del Colegio Jesús en el Huerto de los Olivos, a poder utilizar correctamente el mismo. \\
+De ésta manera, la información que se pueda extrar del mismo podrá ser utilizar por los directivos de forma confiable y servirá, también, para el mejor funcionamiento de la institución.
+
+\section{Notificaciones}
+
+Las notificaciones son una parte importante del sistema, ya que dan aviso a los administradores, de una forma rápida y visual, de las acciones realizadas (u omitidas) por las secretarias a la hora de ingresar los partes. \\
+En general, las notificaciones son diarias (es decir, las mismas se actulizan en la madrugada de cada día) y entre otras, dan aviso a los adminitradores si:
+\begin{itemize}
+	\item Una sección no igresó el parte diario.
+	\item Se ingresó un accidente de un Docente, pero no se reportó aviso a ART.
+	\item Un parte lleva más de una semana sin aprobarse.
+\end{itemize}
+
+\subsection{Duración de las notificaciones}
+Las notificaciones serán visibles durante 7 días (contando los no hábiles), a excepción de que el adminsitrador considere que dicha notificación ya no es válida. \\
+En dicho caso, el mismo podrá proceder a eliminarla, haciendo click en  la cruz que aparece en la parte superir derecha de cada notificación. Tener en cuenta que el sistema no pedirá confirmación de ésta acción, por lo que se deberá ser cauto a la hora de borrar las notificaciones y corroborar si efectivamente ésta ya no es válida.
+
+\section{Aprobar Partes}
+Una parte fundamental del sistema se basa en la aprobación de los partes. El proceso de aprobación de un parte es el siguiente:
+\begin{itemize}
+	\item Una secretaria de un nivel creo un parte diario.
+	\item El parte es procesado por el sistema, y es agregado a los partes pendientes de aprobación. Los mismos se encuentran dentro de la solapa \textit{"Aprobar Partes"}. 
+	\item El administrador debe hacer click sobre el parte que quiera aprobar. Al hacerlo, se abrirá una ventana emergente, con los datos del parte.
+	\item Si el administrador consiedera que dichos datos son correctos, procede a hacer click en \textit{"Aprobar Parte"}. De ésta forma, el parte quedará aprobado.
+	\item Si el adminitrador considera que dicos datos no son correcto, puede enviar un emaila la secretaria que ingresó el parte para que lo re-ingrese, o bien modificar él mismo el parte desde la sección \textit{"Editar Partes"} (ver más adelante para más información).
+\end{itemize}
+
+\subsection{¿Para qué sirve aprobar los partes?}
+Para el sistema, un parte no está realmente procesado hasta que el administrador lo haya aprobado. Es decir, tanto para los reportes semanales, mensuales o personalizados, como también para los distintos gráficos estadísticos que ofrece el sistema, el parte NO existe hasta que haya sido aprobado. \\De ésta forma, se evita que se tome en cuenta información errónea a la hora de crear datos importanes para la institución.
+
+
+
+\section{Editar Partes}
+Gran parte del trabajo del administrador, aparte de aprobar los partes, es editarlos. Muchas veces, una secretaria puede confundirse a la hora de ingresar un parte y hacerlo erróneamente. Como la información que debe manejar el sistema debe ser \textit{100\% segura}, es importante que todos los partes aprobados sean fidedignos. \\ 
+En caso de que un administrador crea que un parte fue ingresado erróneamente, debe comunicarse con el secretario en cuestión (haciendo click en el botón \textit{Corroborar Informe} se le enviará un mail automáticamente a la secretaria para que confirme que el parte ingresado es correcto). En caso de que el parte no sea correcto, la secretaria debe enviar los datos a modificar dado que, por una cuestión de seguridad, ellas no tienen permitido modificar ningún contenido ingresado previamente.
+
+\subsection{¿Cómo editar los partes?}
+Los partes constan de, principalmente, 4 partes:
+\begin{itemize}
+	\item El parte en sì, que tiene una fecha y una sección especificas.
+	\item Las inasistencias / llegadas tardes / licencias del parte.
+	\item Los accidentes.
+	\item Las horas extras.
+\end{itemize}
+Dentro de editar partes, es posible editar cara parte en particular. Para hallar un parte, se puede utilizar la primera tabla que aparece en el sitio, \textit{Partes Diario}. Es posible buscar los valores filtrando por los datos que se quiera (ingresando texto dentro de las cajas de búsqueda de cada columna).\\
+Una vez hallado el parte que se quiere editar, se hace click sobre el mismo y, automáticamente, se completarán las 3 tablas correspondientes \textit{Reportes, Accidentes y Horas Extras} con los datos del parte seleccionado. Si por alguna razón, el parte no tuviera información sobre alguna de éstas tablas (por ejemplo, no hubo accidentes el día del partes), dicha tabla permanecerá vacía.
+\subsection{Editar / borrar un \textit{Registro} del parte}
+Se llama registro a cada fila de cada una de las tablas. Entonces, un parte está conformado por un registro de la tabla \textbf{Partes Diarios}, y tantos registros de la tabla \textbf{Reportes} como licencias / ausencias tenga el parte. Lo mismo cuenta para las otras dos tablas.\\
+Luego, para editar un registro del parte, basta con seleccionar el parte e ir a la tabla del registro que se quiera editar. Luego, hacer click en él y luego en el ícono del lápiz que aparece en la parte inferior izquierda de la misma tabla (el segundo de la izquierda). Al hacerlo, una ventana emergente se abrirá con los datos del registro. En dicha ventana, podrá modificar los datos que crea conveniente y luego, proceder a guardar los cambios. Ésto afectará al registro definitivamente (aunque puede volver a editarlo para volver al estado anterior). \\
+De la misma forma, puede querer eliminar un registro de alguna de las tablas. Para ello, sólo hace falta seleccionar el registro deseado y luego hacer click en el ícono del \textit{tacho de basura} que hay en la parte inferior izquierda de dicha tabla. Tenér en cuenta que éste cambio \textbf{SÍ} será permamente, y no tiene cambio atrás. \\
+Vale la pena remarcar que, así como se puede editar información de los reportes, accidentes y horas extras, es posible editar / eliminar un registro de la tabla de partes. Sólo que, en éste caso, si se edita alguna información (como la sección, fecha o si está aprobado o no), éste cambio afectará a todo el parte, es decir, a todas las otras tablas que dependen de éste. De ésta forma, por ejemplo, si se elimina un registro de la tabla partes, se perderá por completo \textbf{toda} la información que se haya ingresado correspondiente a un parte. Es por ello, que ésta tarea (y todas las que incluyen manipulación de datos importantes) está solamente restringida para los administradores del sistema.
+
+\section{Editar Docentes / Alumnos}
+
+\section{Informes estadísticos}
+
+
+
+
+\end{document}

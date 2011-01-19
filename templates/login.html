@@ -1,0 +1,28 @@
+<link href="css/login.css" type="text/css" rel="stylesheet">
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#sec_nombre").select();
+		$("#sendLogin").button();
+	})
+</script>
+<script type="text/javascript" src="js/login.js"></script>
+<div id="wrap" class="container">
+	<div class="span-6">&nbsp</div>
+	<div id="login" class="span-11 last">
+		<form id="formLogin" action="login.php" method="post">
+			<div>
+				<label for="sec_login">Seccion: </label>
+				<input type="text" name="sec_login" id="sec_login" class="text" >
+			</div>
+			<div>
+				<label for="us_pass">Contrasena: </label>
+				<input type="password" name="us_pass" id="us_pass" class="text" >
+			</div>
+			<div>
+				<input type="hidden" value="login" name="action" id="action">
+				<input type="submit" value="Ingresar al sistema" name="sendLogin" id="sendLogin">
+			</div>
+		</form>
+		<div id="message" class="ui-corner-all centrado"></div>
+	</div>
+</div>

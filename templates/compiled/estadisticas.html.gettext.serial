@@ -1,0 +1,6 @@
+a:14:{i:0;s:56:"select {
+		margin-right: 20px;
+		margin-left: 5px;
+	}";i:1;s:21:"Graficos Estadisticos";i:2;s:8:"Grafico:";i:3;s:10:"Opciones1:";i:4;s:10:"Opciones2:";i:5;s:6:"Filtro";i:6;s:6:"Desde:";i:7;s:6:"hasta:";i:8;s:18:"Título del gráfico";i:9;s:7:"Nota 1:";i:10;s:125:"En caso de querer hacer un grafico que junte a todas las secciones, 
+			no seleccione ninguna en menu desplegable de arriba.";i:11;s:7:"Nota 2:";i:12;s:191:"Puede personalizar más todavía ingresando un nombre para el gráfico. De ésta forma es más fácil de 
+				copiar el gráfico para insertarlo en algún documento de texto, enviarlo por mail, etc.";i:13;s:13:"Crear Grafico";}
