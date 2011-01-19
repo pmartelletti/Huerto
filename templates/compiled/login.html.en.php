@@ -1,7 +1,7 @@
 <link href="css/login.css" type="text/css" rel="stylesheet">
 <script type="text/javascript">
 	$(document).ready(function(){
-		$("#sec_nombre").focus().select();
+		$("#sec_login").focus().select();
 		$("#sendLogin").button();
 	})
 </script>
