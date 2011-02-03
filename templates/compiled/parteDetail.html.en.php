@@ -7,7 +7,7 @@
 	<form id="parteDetail">
 		
 		<fieldset>
-			<legend>Información General</legend>
+			<legend>Informacion General</legend>
 		
 			<p>
 				<label for="par_id">Id parte:</label>

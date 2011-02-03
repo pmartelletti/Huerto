@@ -3,8 +3,14 @@
 		margin-right: 20px;
 		margin-left: 5px;
 	}
+	span.error, select.error, inpunt.error {
+		background-color:none;
+		border: none;
+		padding: 2px;
+		margin: 0;
+	}
 </style>
-<meta content="text/html; charset=iso-8859-1">
+<meta content="text/html; charset=UTF-8">
 <div>
 	<?php echo $this->elements['graficos']->toHtmlnoClose();?>
 		<fieldset>
@@ -33,15 +39,15 @@
 			</p>
 			
 			<p>
-				<label for="gf_titulo">Título del gráfico</label>
+				<label for="gf_titulo">TÃ­tulo del grÃ¡fico</label>
 				<?php echo $this->elements['gf_titulo']->toHtml();?>
 			</p>
 			
 			<p>
 				<b>Nota 1:</b> En caso de querer hacer un grafico que junte a todas las secciones, 
 			no seleccione ninguna en menu desplegable de arriba.<br />
-				<b>Nota 2:</b> Puede personalizar más todavía ingresando un nombre para el gráfico. De ésta forma es más fácil de 
-				copiar el gráfico para insertarlo en algún documento de texto, enviarlo por mail, etc.
+				<b>Nota 2:</b> Puede personalizar mÃ¡s todavÃ­a ingresando un nombre para el grÃ¡fico. De Ã©sta forma es mÃ¡s fÃ¡cil de 
+				copiar el grÃ¡fico para insertarlo en algÃºn documento de texto, enviarlo por mail, etc.
 			</p>
 			
 			<?php echo $this->elements['send']->toHtml();?>
@@ -54,16 +60,24 @@
 	<script type="text/javascript">
 		// script para llenar asincronicamente los graficos
 		$(document).ready(function(){
-			
-			$("#send").click(function(){
-				
-				$.post("estadisticas.php?action=getGrafico", $("form").serializeArray(), function(response){
-					$("#grafico").html(response);
-				});
-				
-				
-				return false;
-			})
+                        $("#graficos").validate({
+			  errorElement: "span",
+                          rules: {
+			  	gf_nombre: "cRequired",
+			  	gf_subgrafico: "cRequired",
+				to: "cRequired",
+				from: "cRequired"
+			  },
+			  submitHandler: function(form) {
+                                           jQuery(form).ajaxSubmit({
+                                                    target: "#grafico"
+                                                })
+                                            }
+
+                         });
+
+                         $.validator.addMethod("cRequired", $.validator.methods.required, "*");
+                         $.validator.addClassRules("customRequired", {cRequired: true});
 			
 			$("#send").button();
 			
