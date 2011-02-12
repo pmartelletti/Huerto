@@ -1,6 +1,12 @@
-a:14:{i:0;s:56:"select {
+a:14:{i:0;s:177:"select {
 		margin-right: 20px;
 		margin-left: 5px;
-	}";i:1;s:21:"Graficos Estadisticos";i:2;s:8:"Grafico:";i:3;s:10:"Opciones1:";i:4;s:10:"Opciones2:";i:5;s:6:"Filtro";i:6;s:6:"Desde:";i:7;s:6:"hasta:";i:8;s:18:"TÌtulo del gr·fico";i:9;s:7:"Nota 1:";i:10;s:125:"En caso de querer hacer un grafico que junte a todas las secciones, 
-			no seleccione ninguna en menu desplegable de arriba.";i:11;s:7:"Nota 2:";i:12;s:191:"Puede personalizar m·s todavÌa ingresando un nombre para el gr·fico. De Èsta forma es m·s f·cil de 
-				copiar el gr·fico para insertarlo en alg˙n documento de texto, enviarlo por mail, etc.";i:13;s:13:"Crear Grafico";}
+	}
+	span.error, select.error, inpunt.error {
+		background-color:none;
+		border: none;
+		padding: 2px;
+		margin: 0;
+	}";i:1;s:21:"Graficos Estadisticos";i:2;s:8:"Grafico:";i:3;s:10:"Opciones1:";i:4;s:10:"Opciones2:";i:5;s:6:"Filtro";i:6;s:6:"Desde:";i:7;s:6:"hasta:";i:8;s:20:"T√≠tulo del gr√°fico";i:9;s:7:"Nota 1:";i:10;s:125:"En caso de querer hacer un grafico que junte a todas las secciones, 
+			no seleccione ninguna en menu desplegable de arriba.";i:11;s:7:"Nota 2:";i:12;s:199:"Puede personalizar m√°s todav√≠a ingresando un nombre para el gr√°fico. De √©sta forma es m√°s f√°cil de 
+				copiar el gr√°fico para insertarlo en alg√∫n documento de texto, enviarlo por mail, etc.";i:13;s:13:"Crear Grafico";}

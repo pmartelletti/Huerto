@@ -7,6 +7,7 @@ require_once 'TabsAdminView.class.php';
 require_once 'ReportsDetailView.class.php';
 require_once 'Jqgrid.class.php';
 require_once 'reportePdf.class.php';
+require_once 'classes/phpMailer/class.phpmailer.php';
 
 class AdminController {
 
@@ -113,6 +114,10 @@ class AdminController {
 				}
 				
 				return json_encode($res);
+
+                        case "rechazaParte":
+
+                            return $this->rechazarParte();
 				
 			case "closeSession":
 				
@@ -141,6 +146,67 @@ class AdminController {
 		}
 		
 	}
+
+        private function rechazarParte(){
+            $id = $_POST['idParte'];
+
+            $parte = DB_DataObject::factory("partes");
+            $parte->get($id);
+            $parte->par_aprobado = -1;
+
+            $res = array();
+
+            if ( $parte->update() ){
+
+                    // envio el email a la seccion correspondiente
+                    $seccion = DB_DataObject::factory("secciones");
+                    $seccion->get( $parte->par_sec_id);
+                    $seccion->find(true);
+                    $to = $seccion->sec_email;
+                    $from = "noreply@parteshuerto.com.ar";
+                    $body = "El parte diario realizado por la seccion ". $seccion->sec_nombre . " el dia " . date("d-m-Y", strtotime($parte->par_fecha)) . " ha sido rechazada. Por favor, vuelva a ingresarla para la correcta adminsitracion de los datos.
+                        Atte.,
+
+                        La administracion.";
+                    $this->sendMail($from, $to, "Parte Diario Rechazado", $body);
+
+                    // muestro el resultado
+
+                    $res = array("resCode" => "200", "resMsg" => "El parte ha sido rechazado.");
+
+            } else {
+                    $res = array("resCode" => "100", "resMsg" => "Hubo un error al rechazar el parte. Intenta nuevamente");
+            }
+
+            return json_encode($res);
+        }
+
+
+        private function sendMail($from, $to, $subject, $body){
+
+            $mail = new PHPMailer();
+            $mail->From     = $from; // Mail de origen
+            $mail->FromName = "Soporte Tecnico Huerto"; // Nombre del que envia
+            $mail->AddAddress($to); // Mail destino, podemos agregar muchas direcciones
+            $mail->AddReplyTo("soporte@parteshuerto.com.ar"); // Mail de respuesta
+
+            $mail->WordWrap = 80; // Largo de las lineas
+            $mail->Subject  =  $subject;
+
+            $mail->Body     =  $body;
+
+            $mail->IsSMTP(); // vamos a conectarnos a un servidor SMTP
+            $mail->Host = "mail.parteshuerto.com.ar"; // direccion del servidor
+            $mail->SMTPAuth = true; // usaremos autenticacion
+            $mail->Username = "noreply@parteshuerto.com.ar"; // usuario
+            $mail->Port = 26;
+            $mail->Password = "0220404"; // contraseña
+
+            $mail->send();
+
+
+
+        }
 
         private function getInformePdf(){
             $id = $_GET['idParte'];

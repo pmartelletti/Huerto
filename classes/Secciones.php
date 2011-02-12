@@ -13,6 +13,7 @@ class DataObjects_Secciones extends DB_DataObject
     public $sec_id;                          // int(4)  primary_key not_null
     public $sec_nombre;                      // varchar(100)  unique_key not_null
     public $sec_login;                       // varchar(15)   not_null
+    public $sec_email;                       // varchar(90)   not_null
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Secciones',$k,$v); }
