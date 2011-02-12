@@ -9,6 +9,7 @@ class NotificacionesController {
 
 	public function getView($view){
 		
+		
 		switch ($view){
 			
 			case "notificacionesUsuario":
@@ -106,7 +107,7 @@ class NotificacionesController {
 		$parte->par_sec_id = $sec_id;
 		
 		$art = DB_DataObject::factory("accidentes");
-		$art->acc_reporte_art = 0; // el accidente no está reportado a ART
+		$art->acc_reporte_art = 0; // el accidente no estï¿½ reportado a ART
 		$art->joinAdd($parte);
 		if( $art->find(true) > 0 ){
 			// hay accidentes no reportados a la ART
@@ -149,7 +150,7 @@ class NotificacionesController {
 	
 	private function notificacionParteNoingresado($sec_id, $not_tipo_id){
 		
-		// busco si ingresó parte en el día de ayer
+		// busco si ingresï¿½ parte en el dï¿½a de ayer
 		$date = date("Y-m-d", strtotime("-1 day"));
 		$parte = DB_DataObject::factory("partes");
 		$parte->par_fecha = $date;
