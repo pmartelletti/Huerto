@@ -10,6 +10,7 @@ require_once 'ReportesIndexView.class.php';
 require_once 'TabsReportesView.class.php';
 require_once 'TabsAdminView.class.php';
 require_once 'classes/phpMailer/class.phpmailer.php';
+require_once 'classes/reportePdf.class.php';
 
 class ReportesController {
 	
@@ -19,6 +20,14 @@ class ReportesController {
 	 */
 	public function ReportesController(){
 		
+	}
+	
+	public static function getPdfParteRechazado($id){
+		
+		$pdf=new reportePdf($id);
+		$pdf->setContent();
+
+		return $pdf->Output();
 	}
 	
 	public function getView($view){
@@ -111,6 +120,13 @@ class ReportesController {
 			case "listarMotivos":
 				
 				return $this->listarMotivos();
+				
+			case "listarSeccionesAdmin":
+				return $this->listarSeccionesAdmin();
+				
+			case "listarMotivosFiltrados":
+				
+				return $this->listarMotivosFiltrados();
 
                         case "sendMail":
 
@@ -191,6 +207,22 @@ class ReportesController {
 		return json_encode($res);
 	}
 	
+	private function listarMotivosFiltrados() {
+		$busqueda = $_GET['term'];
+		$q = strtolower($busqueda);
+
+		$res = array();
+				
+		$motivos = DB_DataObject::factory("motivos");
+		$motivos->query("SELECT * FROM {$motivos->__table} WHERE mot_descripcion LIKE '%$busqueda%' ORDER BY mot_descripcion ASC");
+
+		while ( $motivos->fetch() ){
+			$res[] = array("label" => utf8_encode($motivos->mot_descripcion), "id" => $motivos->mot_descripcion, "desc" => $motivos->mot_id, );
+		}
+		
+		return json_encode($res);
+	}
+	
 	private function listarDocentes(){
 		
 		$busqueda = $_GET['term'];
@@ -229,6 +261,23 @@ class ReportesController {
 		$parte = DB_DataObject::factory("partes");
 		$parte->setFrom($_POST);
 		return $parte->insert();
+		
+	}
+	
+	private function listarSeccionesAdmin(){
+		// FUNCION QUE SIRVE PARA AGRUPAR LAS DISTINTAS ZONAS, CARGOS, SECCIONES, ETC, PARA INCLUIR EN EL JS
+		$cargos = DB_DataObject::factory('alumnos');
+		$cargos->groupBy("alu_zona");
+		$cargos->orderBy("alu_zona ASC");
+		$cargos->find();
+		
+		$result = "";
+		
+		while( $cargos->fetch() ){
+			$result .= $cargos->alu_zona . ":" . $cargos->alu_zona . ";";
+		}
+		
+		return $result;
 		
 	}
 	

@@ -10,6 +10,11 @@ require_once 'classes/DbConfig.class.php';
 SessionVars::start();
 DbConfig::setup();
 
+if ($_GET['action'] == "detalles_parte_rechazado"){
+	ReportesController::getPdfParteRechazado($_GET['id_parte']);
+	
+}
+
 
 if ( !(SessionVars::isUserLogged()) ) header("location: login.php?view=login");
 

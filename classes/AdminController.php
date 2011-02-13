@@ -75,8 +75,8 @@ class AdminController {
 				
 				// reportes
 				$inas =  $this->getReportes($fecha_ini, $fecha_fin, "Inasistencia", $filtro);
-				$tarde = $this->getReportes($fecha_ini, $fecha_fin, "Tarde", $filtro);
-				$retiro =  $this->getReportes($fecha_ini, $fecha_fin, "Retiro", $filtro);
+				$tarde = $this->getReportes($fecha_ini, $fecha_fin, "Llegada Tarde", $filtro);
+				$retiro =  $this->getReportes($fecha_ini, $fecha_fin, "Retiro Anticipado", $filtro);
 				
 				return json_encode(array($inas, $tarde, $retiro));
 			
@@ -127,19 +127,19 @@ class AdminController {
 				
 			case "listarSecciones":
 				
-				return $this->listarDocentes();
+				return $this->listarSecciones();
 
-                        case "listarZonasAlumnos":
+			case "listarZonasAlumnos":
 
-                            return $this->listarZonasAlumnos();
+				return $this->listarZonasAlumnos();
 
-                        case "listarCargosDocentes":
+			case "listarCargosDocentes":
 
-                            return $this->listarCargosDocentes();
+				return $this->listarCargosDocentes();
 
-                        case "informePdf":
+			case "informePdf":
 
-                            return $this->getInformePdf();
+				return $this->getInformePdf();
 			
 			default:
 				return json_encode(array("error"=>"El mensaje ha fallado"));
@@ -164,8 +164,10 @@ class AdminController {
                     $seccion->find(true);
                     $to = $seccion->sec_email;
                     $from = "noreply@parteshuerto.com.ar";
-                    $body = "El parte diario realizado por la seccion ". $seccion->sec_nombre . " el dia " . date("d-m-Y", strtotime($parte->par_fecha)) . " ha sido rechazada. Por favor, vuelva a ingresarla para la correcta adminsitracion de los datos.
-                        Atte.,
+                    $url_descarga = "http://localhost/huerto/index.php?action=detalles_parte_rechazado&id_parte=" . $parte->par_id;
+                    $body = "<p>El parte diario realizado por la seccion ". $seccion->sec_nombre . " el dia " . date("d-m-Y", strtotime($parte->par_fecha)) . " ha sido rechazada. Por favor, vuelva a ingresarla para la correcta adminsitracion de los datos.</p>
+                    <p>Puede ver los datos del mismo descargando el <a href='$url_descarga'>siguiente formulario en formato PDF.</a></p>    
+                    Atte.,
 
                         La administracion.";
                     $this->sendMail($from, $to, "Parte Diario Rechazado", $body);
@@ -192,6 +194,7 @@ class AdminController {
 
             $mail->WordWrap = 80; // Largo de las lineas
             $mail->Subject  =  $subject;
+            $mail->IsHTML(true); // Podemos incluir tags html
 
             $mail->Body     =  $body;
 
@@ -215,8 +218,9 @@ class AdminController {
             $pdf->setContent();
             return $pdf->Output();
         }
-	
-	private function listarDocentes(){
+
+    
+	private function listarSecciones(){
 		
 		$busqueda = $_GET['term'];
 		$q = strtolower($busqueda);

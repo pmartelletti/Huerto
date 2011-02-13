@@ -34,7 +34,7 @@
                     var parFieldsCsv = "fieldsCsv=par_id,par_aprobado,par_fecha,par_observaciones,par_sec_id,sec_nombre";
                     var parTableRelations = "relations=secciones";
                     var parUrl = 'adminReports.php?q=1&action=jqgridTable&table=partes' + "&" + parFieldsCsv + "&" + parTableRelations;
-                    createTable("#partesTable", parUrl, parColNames, parColModel, '#partesPager', "Partes Diarios", prepareParteForm);
+                    createTable("#partesTable", parUrl, parColNames, parColModel, '#partesPager', "Partes Diarios", prepareParteForm, "user");
                     // agrego / modifico parametros del grid
                     jQuery("#partesTable").jqGrid('setGridParam',{
                             onSelectRow: function(id){
