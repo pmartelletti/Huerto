@@ -8,6 +8,7 @@ require_once 'ReportsDetailView.class.php';
 require_once 'Jqgrid.class.php';
 require_once 'reportePdf.class.php';
 require_once 'classes/phpMailer/class.phpmailer.php';
+require_once 'classes/Notificaciones.class.php';
 
 class AdminController {
 
@@ -75,8 +76,8 @@ class AdminController {
 				
 				// reportes
 				$inas =  $this->getReportes($fecha_ini, $fecha_fin, "Inasistencia", $filtro);
-				$tarde = $this->getReportes($fecha_ini, $fecha_fin, "Tarde", $filtro);
-				$retiro =  $this->getReportes($fecha_ini, $fecha_fin, "Retiro", $filtro);
+				$tarde = $this->getReportes($fecha_ini, $fecha_fin, "Llegada Tarde", $filtro);
+				$retiro =  $this->getReportes($fecha_ini, $fecha_fin, "Retiro Anticipado", $filtro);
 				
 				return json_encode(array($inas, $tarde, $retiro));
 			
@@ -115,9 +116,12 @@ class AdminController {
 				
 				return json_encode($res);
 
-                        case "rechazaParte":
+			case "rechazaParte":
 
-                            return $this->rechazarParte();
+				return $this->rechazarParte();
+				
+			case "corroborarParte":
+				return $this->corroborarParte();
 				
 			case "closeSession":
 				
@@ -127,19 +131,19 @@ class AdminController {
 				
 			case "listarSecciones":
 				
-				return $this->listarDocentes();
+				return $this->listarSecciones();
 
-                        case "listarZonasAlumnos":
+			case "listarZonasAlumnos":
 
-                            return $this->listarZonasAlumnos();
+				return $this->listarZonasAlumnos();
 
-                        case "listarCargosDocentes":
+			case "listarCargosDocentes":
 
-                            return $this->listarCargosDocentes();
+				return $this->listarCargosDocentes();
 
-                        case "informePdf":
+			case "informePdf":
 
-                            return $this->getInformePdf();
+				return $this->getInformePdf();
 			
 			default:
 				return json_encode(array("error"=>"El mensaje ha fallado"));
@@ -157,6 +161,13 @@ class AdminController {
             $res = array();
 
             if ( $parte->update() ){
+            	
+            		// creo una notificacion en la seccion
+            		$notificacion = new NotificacionesQuery();
+            		$notificacion->setMotivo("RECHAZO");
+            		$notificacion->setSecccion($parte->par_sec_id);
+            		$notificacion->setTipo("U");
+            		$notificacion->insertDB();
 
                     // envio el email a la seccion correspondiente
                     $seccion = DB_DataObject::factory("secciones");
@@ -164,8 +175,10 @@ class AdminController {
                     $seccion->find(true);
                     $to = $seccion->sec_email;
                     $from = "noreply@parteshuerto.com.ar";
-                    $body = "El parte diario realizado por la seccion ". $seccion->sec_nombre . " el dia " . date("d-m-Y", strtotime($parte->par_fecha)) . " ha sido rechazada. Por favor, vuelva a ingresarla para la correcta adminsitracion de los datos.
-                        Atte.,
+                    $url_descarga = "http://localhost/huerto/index.php?action=detalles_parte_rechazado&id_parte=" . $parte->par_id;
+                    $body = "<p>El parte diario realizado por la seccion ". $seccion->sec_nombre . " el dia " . date("d-m-Y", strtotime($parte->par_fecha)) . " ha sido rechazada. Por favor, vuelva a ingresarla para la correcta adminsitracion de los datos.</p>
+                    <p>Puede ver los datos del mismo descargando el <a href='$url_descarga'>siguiente formulario en formato PDF.</a></p>    
+                    Atte.,
 
                         La administracion.";
                     $this->sendMail($from, $to, "Parte Diario Rechazado", $body);
@@ -180,6 +193,41 @@ class AdminController {
 
             return json_encode($res);
         }
+        
+        private function corroborarParte(){
+        	$id = $_POST['idParte'];
+        	
+        	$parte = DB_DataObject::factory("partes");
+            $parte->get($id);
+            
+            // creo una notificacion en la seccion
+            $notificacion = new NotificacionesQuery();
+            $notificacion->setMotivo("CORROBORACION");
+            $notificacion->setSecccion($parte->par_sec_id);
+            $notificacion->setTipo("U");
+            $notificacion->insertDB();
+
+			// envio el email a la seccion correspondiente
+			$seccion = DB_DataObject::factory("secciones");
+			$seccion->get( $parte->par_sec_id);
+			$seccion->find(true);
+			$to = $seccion->sec_email;
+			$from = "noreply@parteshuerto.com.ar";
+			$url_descarga = "http://localhost/huerto/index.php?action=detalles_parte_rechazado&id_parte=" . $parte->par_id;
+			$body = "<p>El parte diario realizado por la seccion ". $seccion->sec_nombre . " el dia " . date("d-m-Y", strtotime($parte->par_fecha)) . " contiene informacion que puede ser considerada invalida. Por favor, revise los datos del mismo y verifique que todos los datos sean correctos y de aviso a algun administrador .</p>
+                    <p>Puede ver los datos del mismo descargando el <a href='$url_descarga'>siguiente formulario en formato PDF.</a></p>    
+                    Atte.,
+
+                        La administracion.";
+			if ( $this->sendMail($from, $to, "Corroborar Parte Diario", $body) ){
+				// muestro el resultado
+				$res = array("resCode" => "200", "resMsg" => "Se ha enviado un mail a la secretaria para que verifique el parte indicado.");
+            } else {
+				$res = array("resCode" => "100", "resMsg" => "Hubo un error al rechazar el parte. Intenta nuevamente");
+            }
+            
+            return json_encode($res);
+        }
 
 
         private function sendMail($from, $to, $subject, $body){
@@ -192,6 +240,7 @@ class AdminController {
 
             $mail->WordWrap = 80; // Largo de las lineas
             $mail->Subject  =  $subject;
+            $mail->IsHTML(true); // Podemos incluir tags html
 
             $mail->Body     =  $body;
 
@@ -202,10 +251,7 @@ class AdminController {
             $mail->Port = 26;
             $mail->Password = "0220404"; // contraseña
 
-            $mail->send();
-
-
-
+            return $mail->send();
         }
 
         private function getInformePdf(){
@@ -215,8 +261,9 @@ class AdminController {
             $pdf->setContent();
             return $pdf->Output();
         }
-	
-	private function listarDocentes(){
+
+    
+	private function listarSecciones(){
 		
 		$busqueda = $_GET['term'];
 		$q = strtolower($busqueda);

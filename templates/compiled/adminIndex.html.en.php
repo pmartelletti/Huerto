@@ -33,6 +33,7 @@
 			<li><a href="adminReports.php?view=tabs&tabView=editarPartes">Editar partes</a></li>
 			<li><a href="adminReports.php?view=tabs&tabView=editarDocentes">Editar Docentes / Alumnos</a></li>
 			<li><a href="adminReports.php?view=tabs&tabView=informes">Informes</a></li>
+			<li><a href="adminReports.php?view=tabs&tabView=ayuda">Ayuda</a></li>
 			<li><a href="templates/sesion.html">Salir del sistema</a></li>
 		</ul>
 	</div>

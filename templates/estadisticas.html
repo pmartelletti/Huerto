@@ -4,10 +4,10 @@
 		margin-left: 5px;
 	}
 	span.error, select.error, inpunt.error {
-		background-color:none;
+		background-color: white;
 		border: none;
-		padding: 2px;
-		margin: 0;
+		padding: 0;
+		margin-left: 0;
 	}
 </style>
 <meta content="text/html; charset=UTF-8">
@@ -62,7 +62,7 @@
 		$(document).ready(function(){
                         $("#graficos").validate({
 			  errorElement: "span",
-                          rules: {
+              rules: {
 			  	gf_nombre: "cRequired",
 			  	gf_subgrafico: "cRequired",
 				to: "cRequired",

@@ -8,16 +8,19 @@ class NotificacionesQuery extends DataObjects_Notificaciones {
 	// DEFINIR LAS CONSTANTES DE LA CLASE, ESTATICAS
 	static public $tipos = array("A" => "ADMIN", "U" => "USER" );
 	static public $motivos = array(
-		"ART" => "Se ha producido un accidente en la sección, y el mismo no fue reportado a la ART.",
-		"PARTE" => "La sección no ha ingresado el parte diario.",
+		"ART" => "Se ha producido un accidente en la secciï¿½n, y el mismo no fue reportado a la ART.",
+		"PARTE" => "La secciï¿½n no ha ingresado el parte diario.",
 		"INFORME" => "Se ha enviado, por mail, el informe semana de los partes diarios.",
-		"PENDIENTES" => "A la fecha de hoy, hay partes pendientes de aprobación."
+		"PENDIENTES" => "A la fecha de hoy, hay partes pendientes de aprobaciï¿½n.",
+		"RECHAZO" => "Un parte ha sido rechazado. Por favor, verifique su cuenta de correo.", 
+		"CORROBORACION" => "Un parte esta pendiente de corroboracion. Por favor, verifique su cuenta de correo."
 	);
 	static public $email_responsable = "pmartelletti@gmail.com";
 	
 	
 	public function NotificacionesQuery(){
 		// TODO: tiene que hacer algo?
+		$this->not_fecha_creacion = date("Y-m-d");
 	}
 	
 	public function setMotivo($id_motivo){

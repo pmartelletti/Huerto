@@ -8,8 +8,10 @@
     <p>Para eso es que ponemos a disposicion de todos los usuarios un <b>Manual del usuario</b>, en donde se podran despejar
     todas las dudas respecto al funcionamiento del sistema. El mismo deberia poder solucionar cualquier incoveniente / duda
     que tenga a la hora de manejar el sistema.</p>
-    <p><img src="images/guia_pdf.jpg" /><br>
-        <b>Descargar Manual de Usuario</b></p>
+    <p><img src="images/guia_pdf.jpg" />
+    	<br>
+        <b><a href="support/manual_usuario_secretarias.pdf">Descargar Manual de Usuario</a></b>
+    </p>
     <p>Asi mismo, contamos con un sistema de reporte de fallos. Mediante el mismo, el usuario podra informar al administrador del
         sitio que ha tenido problemas al insertar un parte, y el administrador hara lo posible para encontrar el fallo y continuar
         normalmente con el trabajo.</p>
