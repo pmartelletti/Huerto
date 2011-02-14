@@ -11,7 +11,7 @@
 \section{Introduccion}
 
 El siguiente manual de usuario tiene como objetivo ayudar a los administradores del sistema de Partes Diarios, del Colegio Jesús en el Huerto de los Olivos, a poder utilizar correctamente el mismo. \\
-De ésta manera, la información que se pueda extrar del mismo podrá ser utilizar por los directivos de forma confiable y servirá, también, para el mejor funcionamiento de la institución.
+De ésta manera, la información que se pueda extraer del mismo podrá ser utilizar por los directivos de forma confiable y servirá, también, para el mejor funcionamiento de la institución.
 
 \section{Notificaciones}
 
@@ -32,9 +32,10 @@ Una parte fundamental del sistema se basa en la aprobación de los partes. El pr
 \begin{itemize}
 	\item Una secretaria de un nivel creo un parte diario.
 	\item El parte es procesado por el sistema, y es agregado a los partes pendientes de aprobación. Los mismos se encuentran dentro de la solapa \textit{"Aprobar Partes"}. 
-	\item El administrador debe hacer click sobre el parte que quiera aprobar. Al hacerlo, se abrirá una ventana emergente, con los datos del parte.
+	\item El administrador debe hacer click sobre el parte que quiera aprobar. Al hacerlo, se abrirá una ventana emergente, con los datos del mismo.
 	\item Si el administrador consiedera que dichos datos son correctos, procede a hacer click en \textit{"Aprobar Parte"}. De ésta forma, el parte quedará aprobado.
 	\item Si el adminitrador considera que dicos datos no son correcto, puede enviar un emaila la secretaria que ingresó el parte para que lo re-ingrese, o bien modificar él mismo el parte desde la sección \textit{"Editar Partes"} (ver más adelante para más información).
+	\item Por ultimo, el administrador puede considerar que el parte esta totalmente mal ingresado y rechazarlo. Al hacer eso, un email se le enviara automaticamente a la secretaria de cada seccion, avisandole que el parte fue rechazado y que debe reingresarlo nuevamente.
 \end{itemize}
 
 \subsection{¿Para qué sirve aprobar los partes?}
@@ -54,8 +55,8 @@ Los partes constan de, principalmente, 4 partes:
 	\item Los accidentes.
 	\item Las horas extras.
 \end{itemize}
-Dentro de editar partes, es posible editar cara parte en particular. Para hallar un parte, se puede utilizar la primera tabla que aparece en el sitio, \textit{Partes Diario}. Es posible buscar los valores filtrando por los datos que se quiera (ingresando texto dentro de las cajas de búsqueda de cada columna).\\
-Una vez hallado el parte que se quiere editar, se hace click sobre el mismo y, automáticamente, se completarán las 3 tablas correspondientes \textit{Reportes, Accidentes y Horas Extras} con los datos del parte seleccionado. Si por alguna razón, el parte no tuviera información sobre alguna de éstas tablas (por ejemplo, no hubo accidentes el día del partes), dicha tabla permanecerá vacía.
+Dentro de editar partes, es posible editar cada parte en particular. Para hallar un parte, se puede utilizar la primera tabla que aparece en el sitio, \textit{Partes Diario}. Es posible buscar los valores filtrando por los datos que se quiera (ingresando texto dentro de las cajas de búsqueda de cada columna).\\
+Una vez hallado el parte que se quiere editar, se hace click sobre el mismo y, automáticamente, se completarán las 3 tablas correspondientes \textit{Reportes, Accidentes y Horas Extras} con los datos del parte seleccionado. Si por alguna razón, el parte no tuviera información sobre alguna de éstas tablas (por ejemplo, no hubo accidentes el día del parte), dicha tabla permanecerá vacía.
 \subsection{Editar / borrar un \textit{Registro} del parte}
 Se llama registro a cada fila de cada una de las tablas. Entonces, un parte está conformado por un registro de la tabla \textbf{Partes Diarios}, y tantos registros de la tabla \textbf{Reportes} como licencias / ausencias tenga el parte. Lo mismo cuenta para las otras dos tablas.\\
 Luego, para editar un registro del parte, basta con seleccionar el parte e ir a la tabla del registro que se quiera editar. Luego, hacer click en él y luego en el ícono del lápiz que aparece en la parte inferior izquierda de la misma tabla (el segundo de la izquierda). Al hacerlo, una ventana emergente se abrirá con los datos del registro. En dicha ventana, podrá modificar los datos que crea conveniente y luego, proceder a guardar los cambios. Ésto afectará al registro definitivamente (aunque puede volver a editarlo para volver al estado anterior). \\
@@ -64,9 +65,40 @@ Vale la pena remarcar que, así como se puede editar información de los reporte
 
 \section{Editar Docentes / Alumnos}
 
+La siguiente solapa es la de editar los datos del personal docente / alumnos de la institucion. Esto es de vital importancia por si es necesario crear, modificar o eliminar algun cargo docente, dar de alta personal nuevo y los alumnos ingresantes de la institucion.
+
+\subsection{Editar Docentes}
+Dentro de la tabla Docentes, el administrador podra administrar la base de datos del personal, docente o no, de la institucion. Entre otros, podra:
+\begin{itemize}
+\item Agregar nuevo personal, haciendo click en el signo \textit{+ (mas)} en la parte inferior izquierda de la tabla, y llenando los datos correspondientes.
+\item Modificar personal existente, seleccionandolo en la tabla de Docentes y, una vez seleccionado, haciendo click en el signo \textit{lapiz} en la parte inferior izquierda de la tabla, y modificando los datos que crea necesario.
+\item Eliminar personal existente, de la misma forma en que se modifican los usuarios, pero esta vez haciendo click en el icono del tacho de basura..
+\end{itemize}
+
+\subsection{Editar Alumnos}
+De la misma forma que con los docentes, es posible editar la base de datos de los alumnos que se encuentran en la institucion. El proceso es similar a el del mantenimiento de docentes, con la salvedad de que los datos a ingresar difieren de esos otros.
+
 \section{Informes estadísticos}
+De alguna manera, esta es la seccion mas importante y significativa del sistema de partes diarios. En ella se ven reflejadas de forma mas "entendible" y compacta, todos los datos que fueron ingresados por las secretarias,y corregidos por los administradores. \\
+En esta seccion, el administrador podra ver graficos representativos de los datos ingresados, filtrados de la forma que lo desee. De la misma forma, podra ver la planilla de Totales de premio de asistencia por periodos, como asi tambien ver todo el detalle de los partes ingresados, listo para imprimir en formato PDF.
 
+\subsection{Graficos estadisticos}
+La representacion por medio de graficos es una de la forma mas comprensible de entender datos estadisticos. Es por eso que el sistema cuenta con una aplicacion automatica para generar graficos dinamicos, que se crean a partir de los parametros establecidos por el usuario a la hora de realizar la consulta. \\
+Los parametros, en algunos casos son optativos y en otros optativos. Todo depende del tipo de grafico que haya seleccionado para crear. Los mismo son los siguientes:
+\begin{description}
+\item[Grafico] el grafico que se quiere crear.
+\item[Subgrafico] dentro del grafico, por que valores quiere el usuario que se agrupen los datos. Dependiendo del grafico elegido, la lista de subgraficos disponibles podra ser diferente.
+\item[Agrupacion Secundaria] el tipo de dato por el que se quiere que se agrupen los valores filtrados por el subgrafico. Este es un parametro que no esta disponible en todos los graficos y, por tanto, no es obligatorio.
+\item[Filtro] el nombre de la seccion por el que se quieren filtrar los datos. Si no se elige ninguno, entonces los datos utilizados para el grafico seran de todas las secciones.
+\item[Desde] fecha de inicio del periodo en que se quiere tomar los datos
+\item[hasta] fecha de fin del periodo en que se quieren tomar los datos.
+\item[Titulo del grafico] de  forma opcional, se le puede anadir al grafico un titulo que sea descriptivo de su contenido. Esto es particularmente de ayuda cuando el grafico quiere ser exportado como una imagen (haciendo click derecho en el mismo, y seleccionando 'Guardar imagen como ...'
+\end{description}
 
-
+\subsection{Totales premio de asistencia}
+En esta seccion, el administrador podra seleccionar un periodo entre dos meses y un anio, y hacer click en el boton de crear reporte y, automaticamente, se le descargara del sistema una planilla de calculo con los datos totales de premios de asistencia en ese periodo, de acuerdo las reglas preestablecidas con la administracion del colegio. \\
+\subsection{Detalle de partes ingresados}
+Por ultimo, el administrador tiene la posibilidad de ver los detalles de los partes ingresados y tenerlos listos para imprimir. \\
+Buscando el parte que se desea ver dentro de la tabla de partes, el administrador podra hacer click en el parte deseado y, automaticamente, se le descargara el detalle del parte en formato PDF. Si asi lo deseea, se podra imprimir o bien, tenerlo solo para control personal.
 
 \end{document}

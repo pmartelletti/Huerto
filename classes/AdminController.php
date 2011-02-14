@@ -8,6 +8,7 @@ require_once 'ReportsDetailView.class.php';
 require_once 'Jqgrid.class.php';
 require_once 'reportePdf.class.php';
 require_once 'classes/phpMailer/class.phpmailer.php';
+require_once 'classes/Notificaciones.class.php';
 
 class AdminController {
 
@@ -115,9 +116,12 @@ class AdminController {
 				
 				return json_encode($res);
 
-                        case "rechazaParte":
+			case "rechazaParte":
 
-                            return $this->rechazarParte();
+				return $this->rechazarParte();
+				
+			case "corroborarParte":
+				return $this->corroborarParte();
 				
 			case "closeSession":
 				
@@ -157,6 +161,13 @@ class AdminController {
             $res = array();
 
             if ( $parte->update() ){
+            	
+            		// creo una notificacion en la seccion
+            		$notificacion = new NotificacionesQuery();
+            		$notificacion->setMotivo("RECHAZO");
+            		$notificacion->setSecccion($parte->par_sec_id);
+            		$notificacion->setTipo("U");
+            		$notificacion->insertDB();
 
                     // envio el email a la seccion correspondiente
                     $seccion = DB_DataObject::factory("secciones");
@@ -182,6 +193,41 @@ class AdminController {
 
             return json_encode($res);
         }
+        
+        private function corroborarParte(){
+        	$id = $_POST['idParte'];
+        	
+        	$parte = DB_DataObject::factory("partes");
+            $parte->get($id);
+            
+            // creo una notificacion en la seccion
+            $notificacion = new NotificacionesQuery();
+            $notificacion->setMotivo("CORROBORACION");
+            $notificacion->setSecccion($parte->par_sec_id);
+            $notificacion->setTipo("U");
+            $notificacion->insertDB();
+
+			// envio el email a la seccion correspondiente
+			$seccion = DB_DataObject::factory("secciones");
+			$seccion->get( $parte->par_sec_id);
+			$seccion->find(true);
+			$to = $seccion->sec_email;
+			$from = "noreply@parteshuerto.com.ar";
+			$url_descarga = "http://localhost/huerto/index.php?action=detalles_parte_rechazado&id_parte=" . $parte->par_id;
+			$body = "<p>El parte diario realizado por la seccion ". $seccion->sec_nombre . " el dia " . date("d-m-Y", strtotime($parte->par_fecha)) . " contiene informacion que puede ser considerada invalida. Por favor, revise los datos del mismo y verifique que todos los datos sean correctos y de aviso a algun administrador .</p>
+                    <p>Puede ver los datos del mismo descargando el <a href='$url_descarga'>siguiente formulario en formato PDF.</a></p>    
+                    Atte.,
+
+                        La administracion.";
+			if ( $this->sendMail($from, $to, "Corroborar Parte Diario", $body) ){
+				// muestro el resultado
+				$res = array("resCode" => "200", "resMsg" => "Se ha enviado un mail a la secretaria para que verifique el parte indicado.");
+            } else {
+				$res = array("resCode" => "100", "resMsg" => "Hubo un error al rechazar el parte. Intenta nuevamente");
+            }
+            
+            return json_encode($res);
+        }
 
 
         private function sendMail($from, $to, $subject, $body){
@@ -205,10 +251,7 @@ class AdminController {
             $mail->Port = 26;
             $mail->Password = "0220404"; // contraseña
 
-            $mail->send();
-
-
-
+            return $mail->send();
         }
 
         private function getInformePdf(){
