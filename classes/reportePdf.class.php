@@ -12,6 +12,12 @@ require_once 'DB/DataObject.php';
 class reportePdf extends FPDF {
 
     private $parte;
+    
+    static private $estados = array(
+    	"-1" => "Rechazado",
+    	"0" => "Pendiente",
+    	"1" => "Aprobado"
+    );
 
     public function reportePdf($id){
 
@@ -66,7 +72,7 @@ class reportePdf extends FPDF {
 
         // detalles del partes
         $this->SetFont('Arial', 'B');
-        $this->Cell(30, 7, "ID del reporte: ", "L", 0);
+        $this->Cell(35, 7, "ID del reporte: ", "L", 0);
         $this->SetFont('Arial', '');
         $this->Cell(70, 7, $this->parte->par_id);
         $this->SetFont('Arial', 'B');
@@ -75,18 +81,39 @@ class reportePdf extends FPDF {
         $this->Cell(0, 7, $this->parte->par_fecha, "R", 1);
 
         $this->SetFont('Arial', 'B');
-        $this->Cell(30, 7, "Seccion: ", "L", 0);
+        $this->Cell(35, 7, "Seccion: ", "L", 0);
         $this->SetFont('Arial', '');
         $this->Cell(70, 7, $this->parte->_par_sec_id->sec_nombre);
         $this->SetFont('Arial', 'B');
         $this->Cell(30, 7, "Secretaria: ");
         $this->SetFont('Arial', '');
         $this->Cell(0, 7, $this->parte->_par_us_id->us_nombre, "R", 1);
-
+        
         $this->SetFont('Arial', 'B');
         $this->Cell(35, 7, "Observaciones: " , "L");
         $this->SetFont('Arial', '');
         $this->Cell(0, 7, $this->parte->par_observaciones, "R", 1);
+        
+        $this->SetFont('Arial', 'B');
+        $this->Cell(35, 7, "Estado: " , "L");
+        $this->SetFont('Arial', '');
+        $this->Cell(0, 7, reportePdf::$estados[$this->parte->par_aprobado], "R", 1);
+        
+        if( $this->parte->par_aprobado != "0") {
+
+        	
+        	$this->SetFont('Arial', 'B');
+	        $this->Cell(35, 7, "Responsable: ", "L", 0);
+	        $this->SetFont('Arial', '');
+	        $this->Cell(70, 7, $this->parte->_par_us_id_aprobacion->us_nombre);
+	        $this->SetFont('Arial', 'B');
+	        $this->Cell(30, 7, "Fecha: ");
+	        $this->SetFont('Arial', '');
+	        $this->Cell(0, 7, date("d-m-Y", $this->parte->par_fecha_aprobacion), "R", 1);
+        	
+        }
+        
+        
 
         $this->Cell(0, 7, "", "LBR", 1);
 
@@ -213,18 +240,18 @@ class reportePdf extends FPDF {
         $this->Cell(0, 7, $reporte->re_tipo, "R", 1);
 
         $this->SetFont('Arial', 'B');
-        $this->Cell(35, 7, "Motivo: ", "L", 0);
+        $this->Cell(35, 7, "Docente: ", "L", 0);
         $this->SetFont('Arial', '');
-        $this->Cell(100, 7, $reporte->re_motivo);
+        $this->Cell(100, 7, $reporte->_re_doc_id->doc_nombre);
         $this->SetFont('Arial', 'B');
         $this->Cell(20, 7, "Horas: ");
         $this->SetFont('Arial', '');
         $this->Cell(0, 7, $reporte->re_horas, "R", 1);
 
         $this->SetFont('Arial', 'B');
-        $this->Cell(35, 7, "Docente: " , "L");
+        $this->Cell(35, 7, "Motivo: " , "L");
         $this->SetFont('Arial', '');
-        $this->Cell(0, 7, $reporte->_re_doc_id->doc_nombre, "R", 1);
+        $this->Cell(0, 7, $reporte->re_motivo, "R", 1);
 
         $this->SetFont('Arial', 'B');
         $this->Cell(35, 7, "Observaciones: " , "L");

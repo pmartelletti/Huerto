@@ -48,7 +48,7 @@
 					<input type="text" name="re_horas[]" id="re_horas[]" value="<?php if ($this->options['strict'] || (isset($t) && method_exists($t, 'getDBproperty'))) echo htmlspecialchars($t->getDBproperty($parte,"re_horas"));?>">
 					
 					<label for="re_motivo[]">Motivo: </label>
-					<input type="text" name="re_motivo[]" id="re_motivo[]" value="<?php if ($this->options['strict'] || (isset($t) && method_exists($t, 'getDBproperty'))) echo htmlspecialchars($t->getDBproperty($parte,"re_motivo"));?>">
+					<input type="text" name="re_motivo[]" id="re_motivo[]" style="width: 350px" value="<?php if ($this->options['strict'] || (isset($t) && method_exists($t, 'getDBproperty'))) echo htmlspecialchars($t->getDBproperty($parte,"re_motivo"));?>">
 					
 					<div style=" margin-right:20px">
 						<label for="re_observacion[]">Observacion del Administrador</label><br />

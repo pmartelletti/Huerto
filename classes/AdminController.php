@@ -104,6 +104,13 @@ class AdminController {
 				$parte->get($id);
 				$parte->par_aprobado = 1;
 				
+				$usuario = DB_DataObject::factory("usuarios");
+				$usuario->us_nombre = SessionVars::getUsuario();
+				$usuario->find(true);
+				
+				$parte->par_us_id_aprobacion = $usuario->us_id; 
+				$parte->par_fecha_aprobacion = time();
+				
 				$res = array();
 				
 				if ( $parte->update() ){
@@ -157,6 +164,14 @@ class AdminController {
             $parte = DB_DataObject::factory("partes");
             $parte->get($id);
             $parte->par_aprobado = -1;
+            
+            $usuario = DB_DataObject::factory("usuarios");
+			$usuario->us_nombre = SessionVars::getUsuario();
+			$usuario->find(true);
+			
+			$parte->par_us_id_aprobacion = $usuario->us_id; 
+			$parte->par_fecha_aprobacion = time();
+            
 
             $res = array();
 

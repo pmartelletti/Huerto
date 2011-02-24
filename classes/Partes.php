@@ -16,6 +16,8 @@ class DataObjects_Partes extends DB_DataObject
     public $par_observaciones;               // text   not_null
     public $par_sec_id;                      // int(4)   not_null
     public $par_us_id;                       // int(4)   not_null
+    public $par_us_id_aprobacion;            // int(4)  
+    public $par_fecha_aprobacion;            // varchar(45)  
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Partes',$k,$v); }
