@@ -151,6 +151,9 @@ class AdminController {
 			case "informePdf":
 
 				return $this->getInformePdf();
+				
+			case "getResultadosPdf":
+				return $this->getResultadosBusquedaPDF();
 			
 			default:
 				return json_encode(array("error"=>"El mensaje ha fallado"));
@@ -270,11 +273,50 @@ class AdminController {
         }
 
         private function getInformePdf(){
-            $id = $_GET['idParte'];
+            $id = explode("-", $_GET['idParte']);
+            // var_dump($id);
 
             $pdf=new reportePdf($id);
-            $pdf->setContent();
+            $pdf->prepareOutput();
             return $pdf->Output();
+        }
+        
+        private function getResultadosBusquedaPDF(){
+        	
+        	$fecha_ini = $_POST['par_fecha_ini'];
+        	$fecha_fin = $_POST['par_fecha_fin'];
+        	$estado = $_POST['par_aprobado'];
+        	$seccion = $_POST['par_sec_id']; 
+        	
+        	$partes = DB_DataObject::factory("partes");
+        	
+        	if( $fecha_ini != "" or $fecha_fin != "" ){
+        		if ($fecha_ini != "" and $fecha_fin != "") {
+        			$partes->whereAdd("par_fecha BETWEEN '$fecha_ini' AND '$fecha_fin'");
+        		} else {
+        			return json_encode(array("statusCode"=> "100", "statusMsg"=>"Debe indicar una fecha de inicio y de fin."));
+        		}
+        	}
+        	
+        	if($estado != "" ) $partes->whereAdd("par_aprobado = '$estado'");
+        	
+        	if( $seccion != "" ) $partes->whereAdd("par_sec_id = '$seccion'");
+        	
+        	// DB_DataObject::debugLevel(5);
+        	
+        	$partes->find();
+        	$res = array();
+        	while( $partes->fetch() ){
+        		$partes->getLinks();
+        		$estado = "";
+        		if($partes->par_aprobado == -1) $estado = "Rechazado";
+        		else if( $partes->par_aprobado == 0 ) $estado = "Pendiente";
+        		else $estado = "Aprobado";
+        		$res[] = array("par_id" => $partes->par_id, "par_secccion" => $partes->_par_sec_id->sec_nombre, "par_fecha" => date("d-m-y", strtotime($partes->par_fecha)), "par_estado" => $estado);
+        	}
+        	
+        	return json_encode(array("statusCode" => "0" , "statusMsg" => "OK", "data" => $res));
+        	
         }
 
     

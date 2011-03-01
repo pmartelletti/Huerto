@@ -161,7 +161,7 @@ class ReportesController {
             $mail = new PHPMailer();
             $mail->From     = "noreply@parteshuerto.com.ar"; // Mail de origen
             $mail->FromName = "Soporte Tecnico Huerto"; // Nombre del que envia
-            $mail->AddAddress("pmartelletti@gmail.com"); // Mail destino, podemos agregar muchas direcciones
+            $mail->AddAddress($seccion->sec_email); // Mail destino, podemos agregar muchas direcciones
             $mail->AddReplyTo("soporte@parteshuerto.com.ar"); // Mail de respuesta
 
             $mail->WordWrap = 80; // Largo de las lineas

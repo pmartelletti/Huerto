@@ -9,18 +9,118 @@
 		}
 	</style>
 
+	<h3>Informes individuales</h3>
+
 	<div id="partes" class="gridTable" style="margin: 20px auto">
 		<table id="partesTable"></table>
 		<div id="partesPager"></div>
 	</div>
+	
+	<div>
+		<h3>Rango de reportes</h3>
+		<p>A continuacion, puede establecer los criterios de busqueda deseados y, con los resultados obtenidos, imprimir
+		un solo PDF con todos los partes que esten en los mismos. Mientras mas especifica sea su busqueda, mas especificos
+		seran los partes que se imprimiran.</p>
+		
+		<form id="rangoPDF" action="#">
+		
+			<p>
+				<label for="par_fecha_ini">Fecha inicial: </label>
+				<input type="text" name="par_fecha_ini" id="par_fecha_ini" />
+			</p>
+			
+			<p>
+				<label for="par_fecha_fin">Fecha final: </label>
+				<input type="text" name="par_fecha_fin" id="par_fecha_fin" />
+			</p>
+			
+			<p>
+				<label for="par_aprobado">Estado del parte: </label>
+				<select id="par_aprobado" name="par_aprobado">
+					<option value=''>Estado del parte</option>
+					<option value='-1'>Rechazado</option>
+					<option value='0'>Pendiente</option>
+					<option value='1'>Aprobado</option>
+				</select>
+			</p>
+			
+			<p>
+				<label for="par_sec_id">Seccion: </label>
+				<select id="par_sec_id" name="par_sec_id">
+					<option value=''>Seccion</option>
+					<option value='1'>Educacion Secundaria</option>
+					<option value='2'>Educacion Primaria (Ingles)</option>
+					<option value='3'>Educacion Primaria (Castellano)</option>
+					<option value='4'>Inicial</option>
+				</select>
+			</p>
+			
+			<p>
+				<input type="submit" name="send_form" id="send_form" value="Buscar" />
+			</p>
+			
+		</form>
+		
+		<h4>Resultados</h4>
+		<table id="partes_res" >
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Seccion</th>
+					<th>Fecha</th>
+					<th>Estado del Parte</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+		
+		<div id="pdfDownload" style="margin: 10px 20px"></div>
+	
+	</div>
 
 	<script type="text/javascript">
+
+		function sendResultForm() {
+			// envio el formulario de los resultados
+			$("form#rangoPDF").submit(function(){
+				var params = $(this).serialize() + "&action=getResultadosPdf"; 
+				$.post("adminReports.php", params, function(response){
+					if( response.statusCode == "0" ){
+						// esta todo ok
+						var data = response.data;
+						var result = "";
+						var srcID = "";
+						for(i=0; i < data.length; i++){
+							// agrego las filas diamicamente
+							result += "<tr><td>" + data[i].par_id + "</td><td>" + data[i].par_secccion + "</td><td>" + data[i].par_fecha + "</td><td>" + data[i].par_estado + "</td></tr>";
+							srcID += data[i].par_id + "-";
+						}
+						$("table#partes_res tbody").html(result);
+						$("#pdfDownload").html("<a href='adminReports.php?action=informePdf&idParte=" + srcID + "' target='_blank' ><img src='images/guia_pdf' /><p>Descargar resultados en PDF</p></a>");
+					} else {
+						// hubo un error, muestro el error
+						var result = "<tr><td colspan='4' class='error'>" + response.statusMsg + "</td></tr>";
+						$("table#partes_res tbody").html(result);
+					}
+				}, "json");
+				
+				return false;
+			})
+		}
 
 		function prepareParteForm(){
 			return;
 		}
 
 		$(document).ready(function(){
+					// preparo el formulario de partes totales
+					
+					$("#par_fecha_ini, #par_fecha_fin").datepicker({ dateFormat: 'yy-mm-dd' });
+					
+					// envio el formulario
+					sendResultForm();
+			
                     // tabla para los partes
                     var parColNames = ['Id', 'Aprobado', 'Fecha', 'Observaciones', 'Seccion ID', 'Seccion'];
                     var parColModel = [

@@ -12,6 +12,7 @@ require_once 'DB/DataObject.php';
 class reportePdf extends FPDF {
 
     private $parte;
+    private $partes = array();
     
     static private $estados = array(
     	"-1" => "Rechazado",
@@ -19,17 +20,30 @@ class reportePdf extends FPDF {
     	"1" => "Aprobado"
     );
 
-    public function reportePdf($id){
+    public function reportePdf( $id ){
 
         parent::FPDF();
 
         DbConfig::setup();
-
-        $this->parte = DB_DataObject::factory("partes");
-        $this->parte->get( $id );
-        $this->parte->getLinks();
-
+       
+        if( count($id) == 1 ){
+        	$this->parte = DB_DataObject::factory("partes");
+	        $this->parte->get( $id[0] );
+	        $this->parte->getLinks();
+	        
+        } else {
+        	foreach ($id as $parteId ){
+        		if( $parteId != ""){
+        			$parte = DB_DataObject::factory("partes");
+			        $parte->get( $parteId );
+			        $parte->getLinks();
+	        		$this->partes[] = clone($parte);
+        		}
+        		
+        	}
+        }
     }
+    
 
     //Cabecera de página
     public function Header()
@@ -57,7 +71,7 @@ class reportePdf extends FPDF {
     }
 
 
-    public function setContent(){
+    public function setContent($parte){
 
         // relleno el contenido del pdf con los datos del parte
         $this->AddPage();
@@ -74,42 +88,42 @@ class reportePdf extends FPDF {
         $this->SetFont('Arial', 'B');
         $this->Cell(35, 7, "ID del reporte: ", "L", 0);
         $this->SetFont('Arial', '');
-        $this->Cell(70, 7, $this->parte->par_id);
+        $this->Cell(70, 7, $parte->par_id);
         $this->SetFont('Arial', 'B');
         $this->Cell(30, 7, "Fecha: ");
         $this->SetFont('Arial', '');
-        $this->Cell(0, 7, $this->parte->par_fecha, "R", 1);
+        $this->Cell(0, 7, $parte->par_fecha, "R", 1);
 
         $this->SetFont('Arial', 'B');
         $this->Cell(35, 7, "Seccion: ", "L", 0);
         $this->SetFont('Arial', '');
-        $this->Cell(70, 7, $this->parte->_par_sec_id->sec_nombre);
+        $this->Cell(70, 7, $parte->_par_sec_id->sec_nombre);
         $this->SetFont('Arial', 'B');
         $this->Cell(30, 7, "Secretaria: ");
         $this->SetFont('Arial', '');
-        $this->Cell(0, 7, $this->parte->_par_us_id->us_nombre, "R", 1);
+        $this->Cell(0, 7, $parte->_par_us_id->us_nombre, "R", 1);
         
         $this->SetFont('Arial', 'B');
         $this->Cell(35, 7, "Observaciones: " , "L");
         $this->SetFont('Arial', '');
-        $this->Cell(0, 7, $this->parte->par_observaciones, "R", 1);
+        $this->Cell(0, 7, $parte->par_observaciones, "R", 1);
         
         $this->SetFont('Arial', 'B');
         $this->Cell(35, 7, "Estado: " , "L");
         $this->SetFont('Arial', '');
-        $this->Cell(0, 7, reportePdf::$estados[$this->parte->par_aprobado], "R", 1);
+        $this->Cell(0, 7, reportePdf::$estados[$parte->par_aprobado], "R", 1);
         
-        if( $this->parte->par_aprobado != "0") {
+        if( $parte->par_aprobado != "0") {
 
         	
         	$this->SetFont('Arial', 'B');
 	        $this->Cell(35, 7, "Responsable: ", "L", 0);
 	        $this->SetFont('Arial', '');
-	        $this->Cell(70, 7, $this->parte->_par_us_id_aprobacion->us_nombre);
+	        $this->Cell(70, 7, $parte->_par_us_id_aprobacion->us_nombre);
 	        $this->SetFont('Arial', 'B');
 	        $this->Cell(30, 7, "Fecha: ");
 	        $this->SetFont('Arial', '');
-	        $this->Cell(0, 7, date("d-m-Y", $this->parte->par_fecha_aprobacion), "R", 1);
+	        $this->Cell(0, 7, date("d-m-Y", $parte->par_fecha_aprobacion), "R", 1);
         	
         }
         
@@ -121,7 +135,7 @@ class reportePdf extends FPDF {
 
         // busco los reportes y para cada uno, creo un reporte
         $reportes = DB_DataObject::factory("reportes");
-        $reportes->re_par_id = $this->parte->par_id;
+        $reportes->re_par_id = $parte->par_id;
         $num_re = $reportes->find();
         // contador para las separaciones
         $i = 1;
@@ -154,7 +168,7 @@ class reportePdf extends FPDF {
 
          // busco los accidentes y para cada uno, creo un reporte
         $accidentes = DB_DataObject::factory("accidentes");
-        $accidentes->acc_par_id = $this->parte->par_id;
+        $accidentes->acc_par_id = $parte->par_id;
         $num_acc = $accidentes->find();
         // contador para las separaciones
         $i = 1;
@@ -187,7 +201,7 @@ class reportePdf extends FPDF {
 
          // busco los accidentes y para cada uno, creo un reporte
         $horasExtras = DB_DataObject::factory("horas_extras");
-        $horasExtras->he_par_id = $this->parte->par_id;
+        $horasExtras->he_par_id = $parte->par_id;
         $num_he = $horasExtras->find();
         // contador para las separaciones
         $i = 1;
@@ -216,6 +230,18 @@ class reportePdf extends FPDF {
         }
 
         
+    }
+    
+    public function prepareOutput() {
+    	
+    	if( count($this->partes)  > 1 ) {
+    		foreach ($this->partes as $parte){
+    			$this->setContent($parte);
+    		}
+    	} else {
+    		$this->setContent($this->parte);
+    	}
+    	
     }
 
     private function crearBordeSeparador(){

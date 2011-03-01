@@ -59,6 +59,9 @@ class NotificacionesController {
 				} else {
 					return json_encode(array("statusCode" => 200, "statusMsg" => "Hubo un error al eliminar la notificacion"));
 				}
+				
+			case "elimiarNotificacionesSemanales":
+				return $this->eliminarNotificacionesViejas();
 			
 			
 			default:
@@ -97,6 +100,20 @@ class NotificacionesController {
 		
 		// partes pendientes de aprobacion
 		$this->notificacionPartesPendientesAprobacion(5, "A");
+	}
+	
+	private function eliminarNotificacionesViejas(){
+		
+		$not = DB_DataObject::factory("notificaciones");
+		$fecha_pasada = date("Y-m-d", strtotime("-7 days"));
+		$not->whereAdd("not_fecha_creacion < '$fecha_pasada'");
+		$not->find();
+		while( $not->fetch() ){
+			// ingreso los pares de las secciones distintas del administrador
+			$not->not_mostrar = 0;
+			$not->update();
+		}
+		
 	}
 	
 	private function notificacionArtNoReportado($sec_id, $not_tipo_id){
@@ -175,6 +192,8 @@ class NotificacionesController {
 	}
 	
 	public function getNotificacionesAdmin(){
+		
+		// DB_DataObject::debugLevel(5);
 		
 		$not = new NotificacionesQuery();
 		$not->not_tipo = NotificacionesQuery::$tipos["A"];

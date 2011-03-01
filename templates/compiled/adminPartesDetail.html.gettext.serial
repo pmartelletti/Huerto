@@ -1,3 +1,5 @@
-a:1:{i:0;s:35:".jqgrow {
+a:22:{i:0;s:35:".jqgrow {
 			cursor: pointer;
-		}";}
+		}";i:1;s:21:"Informes individuales";i:2;s:17:"Rango de reportes";i:3;s:266:"A continuacion, puede establecer los criterios de busqueda deseados y, con los resultados obtenidos, imprimir
+		un solo PDF con todos los partes que esten en los mismos. Mientras mas especifica sea su busqueda, mas especificos
+		seran los partes que se imprimiran.";i:4;s:14:"Fecha inicial:";i:5;s:12:"Fecha final:";i:6;s:17:"Estado del parte:";i:7;s:16:"Estado del parte";i:8;s:9:"Rechazado";i:9;s:9:"Pendiente";i:10;s:8:"Aprobado";i:11;s:8:"Seccion:";i:12;s:7:"Seccion";i:13;s:20:"Educacion Secundaria";i:14;s:27:"Educacion Primaria (Ingles)";i:15;s:31:"Educacion Primaria (Castellano)";i:16;s:7:"Inicial";i:17;s:6:"Buscar";i:18;s:10:"Resultados";i:19;s:2:"ID";i:21;s:5:"Fecha";i:22;s:16:"Estado del Parte";}
