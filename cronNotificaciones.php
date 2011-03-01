@@ -7,6 +7,7 @@ DbConfig::setup();
 
 $controller = new NotificacionesController();
 $controller->requestAsyncAction("crearNotificacionesDiarias");
+$controller->requestAsyncAction("elimiarNotificacionesSemanales");
 
 
 ?>
