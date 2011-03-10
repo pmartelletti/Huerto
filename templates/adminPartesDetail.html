@@ -97,7 +97,7 @@
 							srcID += data[i].par_id + "-";
 						}
 						$("table#partes_res tbody").html(result);
-						$("#pdfDownload").html("<a href='adminReports.php?action=informePdf&idParte=" + srcID + "' target='_blank' ><img src='images/guia_pdf' /><p>Descargar resultados en PDF</p></a>");
+						$("#pdfDownload").html("<a href='adminReports.php?action=informePdf&idParte=" + srcID + "' target='_blank' ><img src='images/guia_pdf.jpg' /><p>Descargar resultados en PDF</p></a>");
 					} else {
 						// hubo un error, muestro el error
 						var result = "<tr><td colspan='4' class='error'>" + response.statusMsg + "</td></tr>";
